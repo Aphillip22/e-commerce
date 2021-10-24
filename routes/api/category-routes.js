@@ -5,19 +5,22 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
   Category.findAll({
-    attributes: ['id', 'category_name'],
+    attributes: [
+      'id',
+      'category_name'
+    ],
     include: [
       {
         model: Product,
-        attributes: ['product_name']
+        attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
       }
     ]
   })
-  .then(dbCategoryData => res.json(dbCategoryData))
-  .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
-  });
+    .then(dbCategoryData => res.json(dbCategoryData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 router.get('/:id', (req, res) => {
@@ -29,7 +32,7 @@ router.get('/:id', (req, res) => {
     include: [
       {
         model: Product,
-        attributes: ['product_name']
+        attributes: ['id', 'product_name', 'price', 'stock', 'category_id']
       }
     ]
   })
@@ -47,6 +50,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   Category.create({
+    id: req.body.id,
     category_name: req.body.category_name
   })
   .then(dbCategoryData => res.json(dbCategoryData))
@@ -58,6 +62,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   Category.update(req.body, {
+    category_name: req.body.category_name,
     where: {
       id: req.params.id
     }

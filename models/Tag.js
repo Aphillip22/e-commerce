@@ -14,13 +14,6 @@ Tag.init(
     },
     tag_name: {
       type: DataTypes.STRING
-    },
-    pt_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'product_tag',
-        key: 'tag_id'
-      }
     }
   },
   {
